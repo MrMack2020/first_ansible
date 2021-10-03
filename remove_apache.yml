@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: remove latest apache package
+    yum: 
+      name: httpd
+      state: absent
+
+  - name: Remove support for apache
+    yum:
+      name: libyaml
+      state: absent

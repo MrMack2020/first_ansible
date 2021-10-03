@@ -4,7 +4,16 @@
   become: true
   tasks:
 
+  - name: Update repository index
+    yum: 
+      update_cache: yes
+
   - name: install latest apache package
     yum: 
       name: httpd
+      state: latest
+
+  - name: Add php support for apache
+    yum:
+      name: libyaml
       state: latest

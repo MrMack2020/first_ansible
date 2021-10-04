@@ -7,13 +7,33 @@
   - name: Update repository index
     yum: 
       update_cache: yes
+    when: ansible_distribution == "Amazon"
 
   - name: install latest apache package
     yum: 
       name: httpd
       state: latest
+    when: ansible_distribution == "Amazon"
 
-  - name: Add php support for apache
+  - name: Add PHP support for apache
+    yum:
+      name: php
+      state: latest
+    when: ansible_distribution == "Amazon"
+
+  - name: Update repository index
+    yum:
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install latest apache package
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Parsing yaml files
     yum:
       name: libyaml
       state: latest
+    when: ansible_distribution == "Ubuntu"

@@ -5,6 +5,7 @@
   pre_tasks:
 
   - name: install updates (centOS)
+    tags: always
     yum:
       update_only: yes
       update_cache: yes
@@ -21,6 +22,7 @@
   tasks:
 
   - name: install latest apache package with php
+    tags: apache,Amazon,httpd
     yum: 
       name: 
         - httpd
@@ -36,21 +38,12 @@
        state: latest
     when: ansible_distribution == "Ubuntu" 	
 
-- hosts: db_servers
+- hosts: file_servers
   become: true
   tasks:
 
-  - name: install mariadb package (centOS)
+  - name: Install samba package
+    tags: samba
     yum:
-      name: mariadb_server
+      name: samba
       state: latest
-    when: ansible_distribution == "Amazon"
-
-  - name: install mariadb package (Ubuntu, fake)
-    apt:
-      name: mariadb
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-
-- hosts: file_servers
-  become: true

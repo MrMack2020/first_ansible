@@ -30,13 +30,15 @@
       state: latest
     when: ansible_distribution == "Amazon"
 
-  - name: install latest apache and php fake
-    apt:
-       name:
-         - apache2
-         - libphp
-       state: latest
-    when: ansible_distribution == "Ubuntu" 	
+  - name: copy default html file for site
+    tags: htppd, apache
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
 
 - hosts: file_servers
   become: true

@@ -4,18 +4,23 @@
   become: true
   pre_tasks:
 
-  - name: install updates (centOS)
+  - name: update repo cache
     tags: always
     yum:
-      update_only: yes
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Amazon"
 
-  - name: install updates (Ubuntu)
-    apt:
-      upgrade: dist
-      update_cache: yes
-    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create user called simone
+    tags: always
+    user: 
+      name: Simone
+      group: root
 
 
 - hosts: workstations
@@ -65,6 +70,7 @@
       owner: root
       group: root
       mode: 0644
+
 
 - hosts: file_servers
   become: true

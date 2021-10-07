@@ -1,0 +1,44 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (centOS)
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "Amazon"
+
+  - name: install updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create user called simone
+    tags: always
+    user: 
+      name: Simone
+      group: root
+
+#  - name: Add ssh key for user
+#    tags: always
+#    authorized_key:
+#      user: Simone
+#      key: "AKIA3XZPQTIFMH4CBP62"
+
+#  - name: Add sudoers file for Simone
+#    tags: always
+#    copy: 
+#       src: sudoer_simone
+#       dest: /etc/sudoers.d/simone
+#       owner: root
+#       group: root
+#       mode: 0440

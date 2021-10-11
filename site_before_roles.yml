@@ -1,0 +1,83 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: update repo cache
+    tags: always
+    yum:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Amazon"
+
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create user called simone
+    tags: always
+    user: 
+      name: Simone
+      group: root
+
+
+- hosts: workstations
+  become: true
+  tasks:
+    
+  - name: install unzip
+    package:
+      name: unzip
+
+  - name: install terraform
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0755
+      owner: root
+      group: root
+ 
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install latest apache package with php
+    tags: apache,Amazon,httpd
+    yum: 
+      name: 
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "Amazon"
+
+  - name: start httpd
+    tags: httpd
+    service:
+       name: httpd
+       state: started
+       enabled: yes
+    when: ansible_distribution == "Amazon"
+  
+  - name: copy default html file for site
+    tags: htppd, apache
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+
+- hosts: file_servers
+  become: true
+  tasks:
+
+  - name: Install samba package
+    tags: samba
+    yum:
+      name: samba
+      state: latest

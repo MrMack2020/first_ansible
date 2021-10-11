@@ -1,0 +1,23 @@
+- name: install latest apache package with php
+  tags: apache,Amazon,httpd
+  package: 
+     name: 
+       - "{{ apache_package_name }}"
+       - "{{ php_package_name }}"
+     state: latest
+
+- name: start and enable httpd
+  tags: httpd
+  service:
+     name: "{{ apache_service }}"
+     state: started
+     enabled: yes
+
+- name: copy default html file for site
+  tags: htppd, apache
+  copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0644

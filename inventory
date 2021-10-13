@@ -1,12 +1,22 @@
+[all_hosts]
+Target 1 ssh_host=8.133.252.190
+Target 2 ssh_host=18.132.15.10
+Target 3 ssh_host=18.130.193.48
+Target 4 ssh_host=18.134.207.82
+Target 5 ssh_host=18.134.179.242
+
 [web_servers]
-18.134.207.242
-3.8.190.70 
+Target 1 
+Target 2  
 
 [db_servers]
-18.134.205.254
+Target 3 
 
 [file_servers] 
-18.134.135.157
+Target 4 
 
 [workstations]
-18.134.207.64
+Target 5
+
+[all:vars]
+temp_file=/tmp/test2 

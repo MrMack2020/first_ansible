@@ -1,5 +1,6 @@
-- name: Install samba package
-  tags: samba
-  yum:
-    name: samba
-    state: latest
+- name: Create a file
+  tags: file,temp_file
+  file:
+    dest: "{{ temp_file }}" 
+    state: "{{ file_state }}"
+  when: temp_file is defined
